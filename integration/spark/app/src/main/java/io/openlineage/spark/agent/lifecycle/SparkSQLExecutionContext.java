@@ -71,6 +71,13 @@ class SparkSQLExecutionContext implements ExecutionContext {
 
   @Override
   public void start(SparkListenerSQLExecutionStart startEvent) {
+    // We want to monitor if we miss the Query Execution Plans
+    log.info("SparkListenerSQLExecutionStart - executionId: {}", startEvent.executionId());
+    olContext.getQueryExecution().ifPresent(
+      qe -> qePlan = qe.optimizedPlan().toString()
+    );
+    log.info("[SparkListenerSQLExecutionStart startEvent] qePlan: {}", qePlan);
+
     if (log.isDebugEnabled()) {
       log.debug("SparkListenerSQLExecutionStart - executionId: {}", startEvent.executionId());
     }
@@ -107,6 +114,13 @@ class SparkSQLExecutionContext implements ExecutionContext {
 
   @Override
   public void end(SparkListenerSQLExecutionEnd endEvent) {
+    // We want to monitor if we miss the Query Execution Plans
+    log.info("SparkListenerSQLExecutionEnd - executionId: {}", endEvent.executionId());
+    olContext.getQueryExecution().ifPresent(
+      qe -> qePlan = qe.optimizedPlan().toString()
+    );
+    log.info("[SparkListenerSQLExecutionEnd endEvent] qePlan: {}", qePlan);
+
     if (log.isDebugEnabled()) {
       log.debug("SparkListenerSQLExecutionEnd - executionId: {}", endEvent.executionId());
     }
@@ -219,6 +233,14 @@ class SparkSQLExecutionContext implements ExecutionContext {
   @Override
   public void start(SparkListenerJobStart jobStart) {
     log.debug("SparkListenerJobStart - executionId: {}", executionId);
+    
+    // We want to monitor if we miss the Query Execution Plans
+    log.info("SparkListenerJobStart - executionId: {}", executionId);
+    olContext.getQueryExecution().ifPresent(
+      qe -> qePlan = qe.optimizedPlan().toString()
+    );
+    log.info("[SparkListenerJobStart jobStart] qePlan: {}", qePlan);
+
     if (!olContext.getQueryExecution().isPresent()) {
       log.info(NO_EXECUTION_INFO, olContext);
       return;
@@ -258,6 +280,13 @@ class SparkSQLExecutionContext implements ExecutionContext {
       log.debug("Event already finished, returning");
       return;
     }
+
+    // We want to monitor if we miss the Query Execution Plans
+    log.info("SparkListenerJobEnd - executionId: {}", executionId);
+    olContext.getQueryExecution().ifPresent(
+      qe -> qePlan = qe.optimizedPlan().toString()
+    );
+    log.info("[SparkListenerJobEnd jobEnd] qePlan: {}", qePlan);
 
     if (!olContext.getQueryExecution().isPresent()) {
       log.info(NO_EXECUTION_INFO, olContext);

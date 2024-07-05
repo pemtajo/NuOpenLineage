@@ -132,7 +132,20 @@ class SparkSQLExecutionContext implements ExecutionContext {
     // TODO: can we get failed event here?
     // If not, then we probably need to use this only for LogicalPlans that emit no Job events.
     // Maybe use QueryExecutionListener?
+<<<<<<< HEAD
     // Keeping this section commented to avoid missing events
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    // Keeping this section commented to avoid missing events
+>>>>>>> 8bd90d6c (rebasing)
+=======
+    // olContext.setActiveJobId(activeJobId);
+>>>>>>> ab9455ff (commenting olContext.setActiveJobId(activeJobId))
+>>>>>>> 5a7955cc (testing new SparkSQLExecutionContext)
     // if (!olContext.getQueryExecution().isPresent()) {
     //   log.info(NO_EXECUTION_INFO, olContext);
     //   return;
@@ -141,6 +154,7 @@ class SparkSQLExecutionContext implements ExecutionContext {
     //       "OpenLineage received Spark event that is configured to be skipped: SparkListenerSQLExecutionEnd");
     //   return;
     // }
+<<<<<<< HEAD
 =======
     olContext.setActiveJobId(activeJobId);
     if (!olContext.getQueryExecution().isPresent()) {
@@ -151,7 +165,12 @@ class SparkSQLExecutionContext implements ExecutionContext {
           "OpenLineage received Spark event that is configured to be skipped: SparkListenerSQLExecutionEnd");
       return;
     }
+<<<<<<< HEAD
 >>>>>>> cf88fa1b ([SPARK] upgrade supported versions to 3.4.2->3.4.3 and 3.5.0->3.5.1 (#2743))
+=======
+=======
+>>>>>>> ab9455ff (commenting olContext.setActiveJobId(activeJobId))
+>>>>>>> 5a7955cc (testing new SparkSQLExecutionContext)
 
     // only one COMPLETE event is expected, verify if jobEnd was not emitted
     EventType eventType;

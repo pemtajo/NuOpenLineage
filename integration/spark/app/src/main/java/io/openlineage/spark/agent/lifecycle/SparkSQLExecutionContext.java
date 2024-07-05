@@ -50,6 +50,7 @@ class SparkSQLExecutionContext implements ExecutionContext {
   private final EventEmitter eventEmitter;
   private final OpenLineageRunEventBuilder runEventBuilder;
   private final OpenLineage openLineage = new OpenLineage(Versions.OPEN_LINEAGE_PRODUCER_URI);
+  private String qePlan;
 
   private boolean emittedOnSqlExecutionStart = false;
   private boolean emittedOnSqlExecutionEnd = false;

@@ -133,9 +133,16 @@ class SparkSQLExecutionContext implements ExecutionContext {
     // Maybe use QueryExecutionListener?
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     // olContext.setActiveJobId(activeJobId);
 =======
 >>>>>>> 022fdd4b (testing new SparkSQLExecutionContext)
+=======
+=======
+<<<<<<< HEAD
+    // Keeping this section commented to avoid missing events
+>>>>>>> 8bd90d6c (rebasing)
+>>>>>>> c8167451 (testing new SparkSQLExecutionContext)
     // if (!olContext.getQueryExecution().isPresent()) {
     //   log.info(NO_EXECUTION_INFO, olContext);
     //   return;
@@ -145,6 +152,9 @@ class SparkSQLExecutionContext implements ExecutionContext {
     //   return;
     // }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c8167451 (testing new SparkSQLExecutionContext)
 =======
     olContext.setActiveJobId(activeJobId);
     if (!olContext.getQueryExecution().isPresent()) {
@@ -156,8 +166,11 @@ class SparkSQLExecutionContext implements ExecutionContext {
       return;
     }
 >>>>>>> cf88fa1b ([SPARK] upgrade supported versions to 3.4.2->3.4.3 and 3.5.0->3.5.1 (#2743))
+<<<<<<< HEAD
 =======
 >>>>>>> 022fdd4b (testing new SparkSQLExecutionContext)
+=======
+>>>>>>> c8167451 (testing new SparkSQLExecutionContext)
 
     // only one COMPLETE event is expected, verify if jobEnd was not emitted
     EventType eventType;

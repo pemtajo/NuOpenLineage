@@ -142,7 +142,11 @@ public class OpenLineageSparkListener extends org.apache.spark.scheduler.SparkLi
                         activeJobId.ifPresent(id -> c.setActiveJobId(id));
 =======
                         activeJobId.ifPresent(id -> context.setActiveJobId(id));
+<<<<<<< HEAD
 >>>>>>> cf88fa1b ([SPARK] upgrade supported versions to 3.4.2->3.4.3 and 3.5.0->3.5.1 (#2743))
+=======
+>>>>>>> 8bd90d6c (rebasing)
+>>>>>>> c8167451 (testing new SparkSQLExecutionContext)
                         c.end(endEvent);
                         return null;
                       }));

@@ -79,17 +79,18 @@ class SparkSQLExecutionContext implements ExecutionContext {
     );
     log.info("[SparkListenerSQLExecutionStart startEvent] qePlan: {}", qePlan);
 
-    if (log.isDebugEnabled()) {
-      log.debug("SparkListenerSQLExecutionStart - executionId: {}", startEvent.executionId());
-    }
-    if (!olContext.getQueryExecution().isPresent()) {
-      log.info(NO_EXECUTION_INFO, olContext);
-      return;
-    } else if (EventFilterUtils.isDisabled(olContext, startEvent)) {
-      log.info(
-          "OpenLineage received Spark event that is configured to be skipped: SparkListenerSQLExecutionStart");
-      return;
-    }
+    // Keeping this section commented to avoid missing events
+    // if (log.isDebugEnabled()) {
+    //   log.debug("SparkListenerSQLExecutionStart - executionId: {}", startEvent.executionId());
+    // }
+    // if (!olContext.getQueryExecution().isPresent()) {
+    //   log.info(NO_EXECUTION_INFO, olContext);
+    //   return;
+    // } else if (EventFilterUtils.isDisabled(olContext, startEvent)) {
+    //   log.info(
+    //       "OpenLineage received Spark event that is configured to be skipped: SparkListenerSQLExecutionStart");
+    //   return;
+    // }
 
     // only one START event is expected, in case it was already sent with jobStart, we send running
     EventType eventType = emittedOnJobStart ? RUNNING : START;
@@ -128,14 +129,15 @@ class SparkSQLExecutionContext implements ExecutionContext {
     // TODO: can we get failed event here?
     // If not, then we probably need to use this only for LogicalPlans that emit no Job events.
     // Maybe use QueryExecutionListener?
-    if (!olContext.getQueryExecution().isPresent()) {
-      log.info(NO_EXECUTION_INFO, olContext);
-      return;
-    } else if (EventFilterUtils.isDisabled(olContext, endEvent)) {
-      log.info(
-          "OpenLineage received Spark event that is configured to be skipped: SparkListenerSQLExecutionEnd");
-      return;
-    }
+    // Keeping this section commented to avoid missing events
+    // if (!olContext.getQueryExecution().isPresent()) {
+    //   log.info(NO_EXECUTION_INFO, olContext);
+    //   return;
+    // } else if (EventFilterUtils.isDisabled(olContext, endEvent)) {
+    //   log.info(
+    //       "OpenLineage received Spark event that is configured to be skipped: SparkListenerSQLExecutionEnd");
+    //   return;
+    // }
 
     // only one COMPLETE event is expected, verify if jobEnd was not emitted
     EventType eventType;
@@ -242,14 +244,15 @@ class SparkSQLExecutionContext implements ExecutionContext {
     );
     log.info("[SparkListenerJobStart jobStart] qePlan: {}", qePlan);
 
-    if (!olContext.getQueryExecution().isPresent()) {
-      log.info(NO_EXECUTION_INFO, olContext);
-      return;
-    } else if (EventFilterUtils.isDisabled(olContext, jobStart)) {
-      log.info(
-          "OpenLineage received Spark event that is configured to be skipped: SparkListenerJobStart");
-      return;
-    }
+    // Keeping this section commented to avoid missing events
+    // if (!olContext.getQueryExecution().isPresent()) {
+    //   log.info(NO_EXECUTION_INFO, olContext);
+    //   return;
+    // } else if (EventFilterUtils.isDisabled(olContext, jobStart)) {
+    //   log.info(
+    //       "OpenLineage received Spark event that is configured to be skipped: SparkListenerJobStart");
+    //   return;
+    // }
 
     // only one START event is expected, in case it was already sent with sqlExecutionStart, we send
     // running
@@ -289,14 +292,15 @@ class SparkSQLExecutionContext implements ExecutionContext {
     );
     log.info("[SparkListenerJobEnd jobEnd] qePlan: {}", qePlan);
 
-    if (!olContext.getQueryExecution().isPresent()) {
-      log.info(NO_EXECUTION_INFO, olContext);
-      return;
-    } else if (EventFilterUtils.isDisabled(olContext, jobEnd)) {
-      log.info(
-          "OpenLineage received Spark event that is configured to be skipped: SparkListenerJobEnd");
-      return;
-    }
+    // Keeping this section commented to avoid missing events
+    // if (!olContext.getQueryExecution().isPresent()) {
+    //   log.info(NO_EXECUTION_INFO, olContext);
+    //   return;
+    // } else if (EventFilterUtils.isDisabled(olContext, jobEnd)) {
+    //   log.info(
+    //       "OpenLineage received Spark event that is configured to be skipped: SparkListenerJobEnd");
+    //   return;
+    // }
 
     // only one COMPLETE event is expected,
     EventType eventType;

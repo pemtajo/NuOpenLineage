@@ -78,8 +78,6 @@ public class SparkPropertyFacetBuilder
 
     try {
       SparkSession session = SparkSession.active();
-      // log.info("List of conf found in session: {}", session.conf().getAll());
-      // log.info("Allowed Properties: {}", allowedProperties.toString());
       allowedProperties.forEach(item -> m.putIfAbsent(item, session.conf().get(item)));
     } catch (RuntimeException e) {
       log.info(

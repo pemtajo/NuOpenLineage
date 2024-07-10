@@ -42,8 +42,7 @@ public class SparkPropertyFacetBuilder
 
   private void fillConfAndAllowedProperties(SparkConf sparkConf) {
     if (sparkConf == null) {
-      SparkSession session = SparkSession.active();
-      conf = session.sparkContext().getConf();
+      conf = new SparkConf();
     } else {
       conf = sparkConf;
     }
@@ -78,6 +77,7 @@ public class SparkPropertyFacetBuilder
       log.info(
           "Cannot add SparkPropertyFacet: Spark session is in a wrong status or a key in capturedProperties does not exist in run-time config");
     }
+
     return new SparkPropertyFacet(m);
   }
 }

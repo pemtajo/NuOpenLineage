@@ -47,7 +47,6 @@ class SparkSQLExecutionContext implements ExecutionContext {
   private static final String SPARK_PROCESSING_TYPE_BATCH = "BATCH";
   private static final String SPARK_PROCESSING_TYPE_STREAMING = "STREAMING";
   private final long executionId;
-  private String qePlan;
   private String jobName;
   private final OpenLineageContext olContext;
   private final EventEmitter eventEmitter;
@@ -77,12 +76,6 @@ class SparkSQLExecutionContext implements ExecutionContext {
     if (log.isDebugEnabled()) {
       log.debug("SparkListenerSQLExecutionStart - executionId: {}", startEvent.executionId());
     }
-    log.info("SparkListenerSQLExecutionStart - executionId: {}", startEvent.executionId());
-    olContext.getQueryExecution().ifPresent(
-      qe -> qePlan = qe.optimizedPlan().toString()
-    );
-    log.info("[SparkListenerSQLExecutionStart startEvent] qePlan: {}", qePlan);
-    log.info("[SparkListenerSQLExecutionStart startEvent] startEvent: {}", startEvent);
     if (!olContext.getQueryExecution().isPresent()) {
       log.info(NO_EXECUTION_INFO, olContext);
       return;
@@ -121,13 +114,6 @@ class SparkSQLExecutionContext implements ExecutionContext {
     if (log.isDebugEnabled()) {
       log.debug("SparkListenerSQLExecutionEnd - executionId: {}", endEvent.executionId());
     }
-    log.info("SparkListenerSQLExecutionEnd - executionId: {}", endEvent.executionId());
-    olContext.getQueryExecution().ifPresent(
-      qe -> qePlan = qe.optimizedPlan().toString()
-    );
-    log.info("[SparkListenerSQLExecutionEnd endEvent] qePlan: {}", qePlan);
-    log.info("[SparkListenerSQLExecutionEnd endEvent] endEvent: {}", endEvent);
-    log.info("[SparkListenerSQLExecutionEnd endEvent] jobName: {}", jobName);
     // TODO: can we get failed event here?
     // If not, then we probably need to use this only for LogicalPlans that emit no Job events.
     // Maybe use QueryExecutionListener?
@@ -250,14 +236,6 @@ class SparkSQLExecutionContext implements ExecutionContext {
   @Override
   public void start(SparkListenerJobStart jobStart) {
     log.debug("SparkListenerJobStart - executionId: {}", executionId);
-    log.info("SparkListenerJobStart - executionId: {}", executionId);
-    olContext.getQueryExecution().ifPresent(
-      qe -> qePlan = qe.optimizedPlan().toString()
-    );
-    log.info("[SparkListenerJobStart jobStart] qePlan: {}", qePlan);
-    jobName = jobStart.properties().getProperty("spark.job.name");
-    olContext.setJobNurn(jobName);
-    log.info("[SparkListenerJobStart jobStart] jobName: {}", olContext.getJobNurn());
     if (!olContext.getQueryExecution().isPresent()) {
       log.info(NO_EXECUTION_INFO, olContext);
       return;
@@ -294,12 +272,6 @@ class SparkSQLExecutionContext implements ExecutionContext {
   @Override
   public void end(SparkListenerJobEnd jobEnd) {
     log.debug("SparkListenerJobEnd - executionId: {}", executionId);
-    log.info("SparkListenerJobEnd - executionId: {}", executionId);
-    olContext.getQueryExecution().ifPresent(
-      qe -> qePlan = qe.optimizedPlan().toString()
-    );
-    log.info("[SparkListenerJobEnd jobEnd] qePlan: {}", qePlan);
-    log.info("[SparkListenerJobEnd jobEnd] jobName: {}", jobName);
     olContext.setActiveJobId(jobEnd.jobId());
     if (!finished.compareAndSet(false, true)) {
       log.debug("Event already finished, returning");

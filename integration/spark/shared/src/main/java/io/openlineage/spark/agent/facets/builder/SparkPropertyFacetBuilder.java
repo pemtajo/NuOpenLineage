@@ -42,13 +42,9 @@ public class SparkPropertyFacetBuilder
 
   private void fillConfAndAllowedProperties(SparkConf sparkConf) {
     if (sparkConf == null) {
-      // Creating a raw conf based on the active Spark Session
-      log.info("Raw conf created!");
       SparkSession session = SparkSession.active();
       conf = session.sparkContext().getConf();
     } else {
-      // Passing the Spark Conf if sourced
-      log.info("Spark conf sourced!");
       conf = sparkConf;
     }
     allowedProperties =
@@ -65,7 +61,6 @@ public class SparkPropertyFacetBuilder
 
   public SparkPropertyFacet buildFacet(SparkListenerEvent event) {
     Map<String, Object> m = new HashMap<>();
-    log.info("List of conf found in session: {}", conf.getAll());
     Arrays.stream(conf.getAll())
         .filter(t -> allowedProperties.contains(t._1))
         .forEach(t -> m.putIfAbsent(t._1, t._2));
@@ -81,10 +76,8 @@ public class SparkPropertyFacetBuilder
       allowedProperties.forEach(item -> m.putIfAbsent(item, session.conf().get(item)));
     } catch (RuntimeException e) {
       log.info(
-          "Cannot add SparkPropertyFacet: Spark session is in a wrong status or a key in capturedProperties does not exist in run-time config. Exception: {}", e);
+          "Cannot add SparkPropertyFacet: Spark session is in a wrong status or a key in capturedProperties does not exist in run-time config");
     }
-
-    log.info("Map of Properties: {}", m.toString());
     return new SparkPropertyFacet(m);
   }
 }

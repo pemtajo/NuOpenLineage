@@ -6,6 +6,7 @@
 package io.openlineage.client.utils.jdbc;
 
 import java.net.URISyntaxException;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -21,11 +22,11 @@ public class TeradataJdbcExtractor implements JdbcExtractor {
   private static final String DATABASE_PROPERTY = "DATABASE";
 
   private static final Pattern URL =
-      Pattern.compile("(?:\\w+)://(?<host>[\\w\\d\\.\\[\\]:]+)?/?(?<params>.*)");
+      Pattern.compile("(?:\\w+)://(?<host>[\\w\\d\\.\\[\\]:-]+)?/?(?<params>.*)");
 
   @Override
   public boolean isDefinedAt(String jdbcUri) {
-    return jdbcUri.startsWith(SCHEME);
+    return jdbcUri.toLowerCase(Locale.ROOT).startsWith(SCHEME);
   }
 
   @Override
@@ -47,7 +48,10 @@ public class TeradataJdbcExtractor implements JdbcExtractor {
     for (String urlParam : rawParams) {
       String[] parts = urlParam.split("=");
       if (parts.length == 2) {
-        params.setProperty(parts[0], parts[1]);
+        // Teradata properties are always in uppercase
+        String key = parts[0].toUpperCase(Locale.ROOT);
+        String value = parts[1];
+        params.setProperty(key, value);
       }
     }
 
